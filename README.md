@@ -1,33 +1,40 @@
 # Navodaya Mock Test
 
-An offline mock-test system built from the scanned JNVST papers in `pdfs/`.
+An online mock-test system for JNVST (Navodaya) papers. Live at **https://impalamol.github.io/navoday-practice-exam/**
 
-## Use it
-Open `index.html` in Chrome or Edge (double-click). It needs no server and no internet; only the web font is loaded online, with a fallback if you're offline.
+## Add a new paper
+1. Put the PDF in `pdfs/`.
+2. Commit and push, or upload the PDF on github.com into the `pdfs/` folder.
 
-- **Start test**: the question pages are on the left (zoom with − / +) and the OMR answer sheet is on the right (on a phone it's the bottom drawer). You get a 2-hour timer, and the test submits automatically when time runs out.
-- Answers save as you go. If you close the tab, the timer pauses, and you can **Resume** from the home screen.
-- **⚑** marks a question for review.
-- **Answer key**: none of the PDFs has a matching answer key, so enter it once per paper (tap bubbles or paste `3142…` / `CABD…`). Every attempt of that paper, including past ones, is then scored by section (Mental Ability, Arithmetic, Language).
-- **Export / Import keys** backs up keys or shares them between devices. To build a key into the app permanently, paste it into `js/answer-keys.js`.
+A GitHub Action turns every page into an image, adds the paper to the list, and redeploys the site. It's usually live within 2 minutes.
+
+The app guesses each new paper's settings from the file name: a year of 2019 or later means 80 questions with options A–D; otherwise 100 questions with 1–4. If a paper is different (another question count, अ/ब/क/ड options, pages to hide, a nicer title), add an entry for it in `papers.config.json`.
+
+## Answer keys
+Put a paper's key in `js/answer-keys.js`: one character per question, `1`–`4` (or `A`–`D` / `अ`–`ड`), with `0` for unknown. A teacher can also enter a key in the app's **Answer key** screen. Keys entered there are saved in that browser only; use **Export keys** to back them up.
+
+## Run locally
+```
+pip install pymupdf
+npm run papers          # build page images + paper list from pdfs/
+npm run papers:watch    # …and rebuild automatically when pdfs/ changes
+```
+Then open `index.html`.
+
+To change styles, edit `scss/` and run `npm install` once, then `npm run build:css`.
 
 ## Files
 ```
 index.html
-scss/            source styles (_variables, _components, _home, _exam, _result …)
-css/main.css     compiled from scss/
-js/papers.js     paper list (question count, option labels, pages)
-js/answer-keys.js  optional built-in keys
-js/app.js        exam engine
-assets/pages/    page images rendered from the PDFs
-```
-
-## Edit styles
-```
-npm install
-npm run build:css     # or: npm run watch:css
+pdfs/                   source papers (the only thing you need to add to)
+papers.config.json      optional per-paper overrides
+scripts/build_papers.py PDF → assets/pages/ + js/papers.data.js (generated, not committed)
+scss/ → css/main.css    styles
+js/app.js               exam engine
+js/answer-keys.js       built-in answer keys
+.github/workflows/      build + deploy
 ```
 
 ## Notes
 - The last 4 pages of `Navodaya Test 7.pdf` are an answer key for **Practice Paper 6**, not 7, so they are hidden.
-- 2020, 2021 and 2023 papers have 80 questions (A–D). All the others have 100 (1–4).
+- The site and repository are public, including the PDFs.
