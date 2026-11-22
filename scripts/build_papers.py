@@ -119,22 +119,30 @@ def build() -> None:
             print(f"  ! skipped {name}: {e}")
             continue
 
-        exclude = set(c.get("excludePages", []))
-        questions = c.get("questions") or (80 if year and year >= 2019 else 100)
-        labels = c.get("labels") or (["A", "B", "C", "D"] if questions == 80 else ["1", "2", "3", "4"])
-        papers.append({
-            "id": pid,
-            "group": group,
-            "title": c.get("title") or guess_title(pdf.stem, year, group),
-            "source": name,
-            "year": year,
-            "pageCount": count,
-            "pages": [n for n in range(1, count + 1) if n not in exclude],
-            "questions": questions,
-            "labels": labels,
-            "duration": c.get("duration") or (120 if questions >= 80 else max(10, round(questions * 1.5))),
-            "_order": c.get("order", cfg_order.index(name) if name in cfg_order else 10_000),
-        })
+        order = c.get("order", cfg_order.index(name) if name in cfg_order else 10_000)
+        # One PDF can hold several papers: "parts": [{id, title, pageRange: [first, last], ...}]
+        for i, part in enumerate(c.get("parts") or [{}]):
+            pc = {**c, **part}
+            pyear = pc.get("year") or year
+            first, last = pc.get("pageRange", [1, count])
+            exclude = set(pc.get("excludePages", []))
+            questions = pc.get("questions") or (80 if pyear and pyear >= 2019 else 100)
+            labels = pc.get("labels") or (["A", "B", "C", "D"] if questions == 80 else ["1", "2", "3", "4"])
+            part_id = part.get("id") or (pid if i == 0 else f"{pid}-{i + 1}")
+            papers.append({
+                "id": part_id,
+                "assetDir": pid,
+                "group": pc.get("group") or group,
+                "title": pc.get("title") or guess_title(pdf.stem, pyear, group),
+                "source": name,
+                "year": pyear,
+                "pageCount": count,
+                "pages": [n for n in range(first, min(last, count) + 1) if n not in exclude],
+                "questions": questions,
+                "labels": labels,
+                "duration": pc.get("duration") or (120 if questions >= 80 else max(10, round(questions * 1.5))),
+                "_order": order,
+            })
 
     # previous-year papers first (newest first), then practice papers
     papers.sort(key=lambda p: (p["group"] != "pyq", -(p["year"] or 0) if p["group"] == "pyq" else 0, p["_order"], p["title"]))
@@ -143,7 +151,7 @@ def build() -> None:
 
     # remove images of PDFs that no longer exist
     if PAGES_DIR.exists():
-        keep = {p["id"] for p in papers}
+        keep = {p["assetDir"] for p in papers}
         for d in PAGES_DIR.iterdir():
             if d.is_dir() and d.name not in keep:
                 print(f"  removing stale assets/pages/{d.name}/")

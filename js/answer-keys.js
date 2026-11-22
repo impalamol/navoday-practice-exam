@@ -6,6 +6,17 @@
  * use "Export keys" there and paste the result here to make them permanent.
  */
 window.BUILTIN_KEYS = {
+  // Full keys (all 80, incl. Mental Ability) copied from the answer pages printed in the PDF
+  // (2025: PDF pages 17-20, 2024: PDF pages 37-40). Letters as printed.
+  "jnvst-2025":
+    "CACADBBBDD" + "BDBCCDCCBB" + "ACDCCACDAD" + "BCDACBCACC" +   // MAT 1-40
+    "CACABCBCBC" + "CABDBBBBDA" +                                     // Maths 41-60
+    "BADBD" + "DDACB" + "DBDBA" + "ACACA",                            // Language 61-80
+  "jnvst-2024":
+    "BDCDBBDDCD" + "ABBBABBCCC" + "ACBAAAACBA" + "CACBDACACA" +
+    "BCCAADDCCD" + "BBDBCADDAA" +
+    "DBCDA" + "ACADC" + "BACCC" + "ABADC",
+
   // Mental Ability (Q1-50) not keyed yet (0 = ungraded).
   // Maths 51-75: solved + matched against an unofficial English-medium key (Q71 = "how many MORE labourers" → 10).
   // Language 76-100: solved from the Marathi passages. Worth a teacher's check: 76, 78, 86, 100.

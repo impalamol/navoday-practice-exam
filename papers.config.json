@@ -23,6 +23,13 @@
     "Navodaya Test 12 (1).pdf": { "id": "test-12", "title": "Practice Paper 12", "group": "practice" },
     "_____ ____ _____________ ___ 7 (1).pdf": { "id": "navneet-test-7", "title": "Scholar Practice Paper 7", "group": "practice" },
     "_____ ____ _____________ ___ 8 (1).pdf": { "id": "navneet-test-8", "title": "Scholar Practice Paper 8", "group": "practice" },
+    "जवाहर नवोदय विद्यालय निवड चाचणी 2025.pdf": {
+      "id": "jnvst-2025-2024", "group": "pyq",
+      "parts": [
+        { "id": "jnvst-2025", "title": "JNVST Question Paper 2025", "year": 2025, "pageRange": [1, 16] },
+        { "id": "jnvst-2024", "title": "JNVST Question Paper 2024", "year": 2024, "pageRange": [21, 36] }
+      ]
+    },
     "Navodaya_2027_Parisar_Abhyas_Marathi.pdf": { "id": "parisar-2027", "title": "Parisar Abhyas Practice Set (2027)", "group": "practice", "questions": 20, "labels": ["अ", "ब", "क", "ड"], "duration": 30 }
   }
 }

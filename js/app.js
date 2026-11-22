@@ -37,7 +37,7 @@
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
   const paperById = (id) => window.PAPERS.find((p) => p.id === id);
-  const pageSrc = (p, n) => `assets/pages/${p.id}/${n}.jpg`;
+  const pageSrc = (p, n) => `assets/pages/${p.assetDir || p.id}/${n}.jpg`;
   const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 
   function el(tag, attrs = {}, ...children) {
