@@ -92,7 +92,7 @@
   // ---------------------------------------------------------------- answer keys
   // A key is a string of length = questions; '1'-'4' = correct option, '0' = unknown.
   function normaliseKey(raw, n) {
-    const map = { A: "1", B: "2", C: "3", D: "4", a: "1", b: "2", c: "3", d: "4" };
+    const map = { A: "1", B: "2", C: "3", D: "4", a: "1", b: "2", c: "3", d: "4", "अ": "1", "ब": "2", "क": "3", "ड": "4" };
     const chars = String(raw || "")
       .replace(/[\s,;|]/g, "")
       .split("")

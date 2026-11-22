@@ -1,0 +1,28 @@
+{
+  "_help": [
+    "Optional per-paper settings, keyed by the PDF file name inside pdfs/.",
+    "A PDF does NOT need an entry here: any PDF dropped into pdfs/ is added automatically",
+    "with settings guessed from its name (year >= 2019 -> 80 questions A-D, else 100 questions 1-4).",
+    "Use an entry only to override: id, title, group ('pyq' | 'practice'), questions (80 | 100),",
+    "labels (['1','2','3','4'] or ['A','B','C','D'] or ['अ','ब','क','ड']), duration (minutes),",
+    "excludePages (page numbers to hide), order (sort weight)."
+  ],
+  "papers": {
+    "नवोदय प्रश्नपत्रिका 2023 PDF. शालेय शिक्षण.इन.pdf": { "id": "paper-2023", "title": "JNVST Question Paper 2023", "group": "pyq" },
+    "2021-नवोदय प्रश्नपत्रिका-SS.pdf": { "id": "ss-2021", "title": "JNVST Question Paper 2021", "group": "pyq" },
+    "2020-नवोदय प्रश्नपत्रिका-SS.pdf": { "id": "ss-2020", "title": "JNVST Question Paper 2020", "group": "pyq" },
+    "2018-नवोदय प्रश्नपत्रिका-SS.pdf": { "id": "ss-2018", "title": "JNVST Question Paper 2018", "group": "pyq" },
+    "2017-नवोदय प्रश्नपत्रिका-SS.pdf": { "id": "ss-2017", "title": "JNVST Question Paper 2017", "group": "pyq" },
+    "2013-नवोदय प्रश्नपत्रिका-SS.pdf": { "id": "ss-2013", "title": "JNVST Question Paper 2013", "group": "pyq" },
+
+    "नवोदय नवनीत 1-2015.pdf": { "id": "navneet-1-2015", "title": "Navneet Practice Paper 1 (2015)", "group": "practice", "questions": 100 },
+    "नवोदय नवनीत 2-2016.pdf": { "id": "navneet-2-2016", "title": "Navneet Practice Paper 2 (2016)", "group": "practice", "questions": 100 },
+    "नवोदय नवनीत 3-2017.pdf": { "id": "navneet-3-2017", "title": "Navneet Practice Paper 3 (2017)", "group": "practice", "questions": 100 },
+    "नवोदय नवनीत 4.pdf": { "id": "navneet-4", "title": "Navneet Practice Paper 4", "group": "practice" },
+    "Navodaya Test 7.pdf": { "id": "test-7", "title": "Practice Paper 7", "group": "practice", "excludePages": [17, 18, 19, 20] },
+    "Navodaya Test 12 (1).pdf": { "id": "test-12", "title": "Practice Paper 12", "group": "practice" },
+    "_____ ____ _____________ ___ 7 (1).pdf": { "id": "navneet-test-7", "title": "Scholar Practice Paper 7", "group": "practice" },
+    "_____ ____ _____________ ___ 8 (1).pdf": { "id": "navneet-test-8", "title": "Scholar Practice Paper 8", "group": "practice" },
+    "Navodaya_2027_Parisar_Abhyas_Marathi.pdf": { "id": "parisar-2027", "title": "Parisar Abhyas Practice Set (2027)", "group": "practice", "questions": 20, "labels": ["अ", "ब", "क", "ड"], "duration": 30 }
+  }
+}

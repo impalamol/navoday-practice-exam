@@ -1,12 +1,11 @@
 /*
- * Built-in answer keys (optional).
+ * Built-in answer keys: one character per question, 1-4 (= first..fourth option),
+ * 0 or - for unknown. Letters A-D or अ ब क ड are also accepted.
  *
- * None of the source PDFs contain a matching answer key, so this starts empty.
- * Keys entered through the "Answer key" screen are saved in the browser only.
- * To make a key permanent / shareable, use "Export keys" in the app and paste
- * the result here, e.g.:
- *
- *   "ss-2013": "3142213...",   // one character per question, 1-4 (0 or - = unknown)
+ * Keys entered in the app's "Answer key" screen are saved in that browser only;
+ * use "Export keys" there and paste the result here to make them permanent.
  */
 window.BUILTIN_KEYS = {
+  // From the उत्तरतालिका printed on page 3 of the PDF (checked against each question)
+  "parisar-2027": "23233231321212232233",
 };

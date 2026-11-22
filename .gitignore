@@ -1,3 +1,8 @@
 node_modules/
-pdfs/
-*.pdf
+
+# Generated from pdfs/ by scripts/build_papers.py (locally and by the GitHub Action)
+assets/pages/
+js/papers.data.js
+
+# Stray PDFs outside pdfs/ (put papers in pdfs/)
+/*.pdf
