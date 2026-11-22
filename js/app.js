@@ -355,6 +355,12 @@
           el("button", { class: "q-row__flag", title: "Mark for review", "aria-label": `Mark question ${q} for review` }, "⚑")));
     }
     list.scrollTop = 0;
+
+    // mobile quick bar
+    if (exam.current == null) exam.current = Math.max(0, exam.answers.findIndex((a) => !a));
+    $("#qb-opts").innerHTML = "";
+    p.labels.forEach((lab, i) =>
+      $("#qb-opts").append(el("button", { class: "bubble bubble--lg", "data-opt": i + 1, role: "radio", "aria-label": `Option ${lab}` }, lab)));
     paintOmr();
 
     $("#omr").classList.remove("is-open");
@@ -378,8 +384,59 @@
     $("#stat-answered").textContent = answered;
     $("#stat-marked").textContent = marked;
     $("#stat-left").textContent = p.questions - answered;
-    $("#omr-count-mini").textContent = `${answered}/${p.questions} ▲`;
+    paintQuick();
   }
+
+  function paintQuick() {
+    const p = paperById(exam.paperId);
+    const i = exam.current;
+    const answered = exam.answers.filter(Boolean).length;
+    $("#qb-q").textContent = `Q${i + 1}`;
+    $("#qb-count").textContent = `${answered}/${p.questions} done`;
+    $$("#qb-opts .bubble").forEach((b) => {
+      const on = +b.dataset.opt === exam.answers[i];
+      b.classList.toggle("is-filled", on);
+      b.setAttribute("aria-checked", on);
+    });
+    $("#qb-flag").classList.toggle("is-on", !!exam.marked[i]);
+    $("#qb-prev").disabled = i === 0;
+    $("#qb-next").disabled = i === p.questions - 1;
+    $$("#omr-list .q-row").forEach((r) => r.classList.toggle("is-current", +r.dataset.q === i + 1));
+  }
+
+  function goTo(i) {
+    const p = paperById(exam.paperId);
+    exam.current = Math.min(p.questions - 1, Math.max(0, i));
+    saveExam();
+    paintQuick();
+  }
+
+  let advanceTimer;
+  $("#qb-opts").addEventListener("click", (e) => {
+    const b = e.target.closest(".bubble");
+    if (!b || !exam) return;
+    const i = exam.current;
+    const opt = +b.dataset.opt;
+    const cleared = exam.answers[i] === opt;
+    exam.answers[i] = cleared ? 0 : opt;
+    saveExam();
+    paintOmr();
+    clearTimeout(advanceTimer);
+    // move on to the next question after a short pause so the tap is visible
+    if (!cleared) advanceTimer = setTimeout(() => exam && exam.current === i && goTo(i + 1), 350);
+  });
+  $("#qb-prev").addEventListener("click", () => { clearTimeout(advanceTimer); goTo(exam.current - 1); });
+  $("#qb-next").addEventListener("click", () => { clearTimeout(advanceTimer); goTo(exam.current + 1); });
+  $("#qb-flag").addEventListener("click", () => {
+    exam.marked[exam.current] = !exam.marked[exam.current];
+    saveExam();
+    paintOmr();
+  });
+  $("#qb-num").addEventListener("click", () => {
+    $("#omr").classList.add("is-open");
+    const row = $(`#omr-list [data-q="${exam.current + 1}"]`);
+    if (row) row.scrollIntoView({ block: "center" });
+  });
 
   $("#omr-list").addEventListener("click", (e) => {
     if (!exam) return;
@@ -392,7 +449,12 @@
       exam.answers[i] = exam.answers[i] === opt ? 0 : opt;
     } else if (e.target.closest(".q-row__flag")) {
       exam.marked[i] = !exam.marked[i];
+    } else if (e.target.closest(".q-row__no")) {
+      // tapping a question number jumps the quick bar there and closes the sheet (mobile)
+      exam.current = i;
+      $("#omr").classList.remove("is-open");
     } else return;
+    exam.current = i;
     saveExam();
     paintOmr();
   });

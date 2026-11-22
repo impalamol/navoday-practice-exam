@@ -71,7 +71,7 @@
 
       <aside class="omr" id="omr">
         <button class="omr__handle" id="omr-toggle">
-          <span>Answer sheet</span><span id="omr-count-mini"></span>
+          <span>Answer sheet</span><span class="omr__close">Close ✕</span>
         </button>
         <div class="omr__inner">
           <div class="omr__stats">
@@ -84,6 +84,21 @@
           <ol class="omr__list" id="omr-list"></ol>
         </div>
       </aside>
+
+      <!-- Mobile: always-visible answer bar for the current question -->
+      <div class="quick-bar" id="quick-bar">
+        <button class="qb-nav" id="qb-prev" aria-label="Previous question">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="qb-num" id="qb-num" aria-label="Open full answer sheet">
+          <b id="qb-q">1</b><small id="qb-count">0/80</small>
+        </button>
+        <div class="qb-opts" id="qb-opts" role="radiogroup"></div>
+        <button class="qb-flag" id="qb-flag" aria-label="Mark for review">⚑</button>
+        <button class="qb-nav" id="qb-next" aria-label="Next question">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
     </div>
   </section>
 
