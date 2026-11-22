@@ -1,0 +1,345 @@
+@use "sass:color";
+@use "variables" as *;
+@use "mixins" as *;
+
+#view-exam {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.exam-bar {
+  height: $bar-h;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  background: $surface;
+  border-bottom: 1px solid $line;
+  z-index: 5;
+
+  &__title {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+
+    strong,
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    span {
+      font-size: 12px;
+      color: $muted;
+    }
+  }
+}
+
+.timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: $brand-soft;
+  color: $brand-dark;
+  font: 700 15px/1 $font;
+  font-variant-numeric: tabular-nums;
+
+  &.is-low {
+    background: $warn-soft;
+    color: $warn;
+  }
+
+  &.is-critical {
+    background: $bad-soft;
+    color: $bad;
+    animation: pulse 1s infinite;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .55;
+  }
+}
+
+.exam-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+// ---------- Page viewer ----------
+.viewer {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: color.adjust($bg, $lightness: -4%);
+
+  &__tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: $ink-soft;
+    border-bottom: 1px solid $line;
+    background: rgba($surface, .7);
+
+    #zoom-label {
+      min-width: 44px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  &__sep {
+    width: 1px;
+    height: 20px;
+    background: $line;
+    margin: 0 4px;
+  }
+
+  &__pages {
+    flex: 1;
+    overflow: auto;
+    padding: 20px 16px 40px;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.page {
+  width: var(--page-w, 100%);
+  max-width: none;
+  margin: 0 auto 18px;
+  background: #fff;
+  box-shadow: $shadow;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+  }
+
+  &__no {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba($ink, .7);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+}
+
+// ---------- OMR sheet ----------
+.omr {
+  width: $omr-w;
+  flex: none;
+  background: $surface;
+  border-left: 1px solid $line;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  &__handle {
+    display: none;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+    padding: 14px 14px 0;
+    gap: 10px;
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+
+    div {
+      text-align: center;
+      background: $bg;
+      border-radius: $radius-sm;
+      padding: 8px 4px;
+    }
+
+    b {
+      display: block;
+      font-size: 1.2rem;
+    }
+
+    small {
+      color: $muted;
+      font-size: 11px;
+    }
+  }
+
+  &__hint {
+    margin: 0;
+    font-size: 12px;
+    color: $muted;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0 -14px;
+    padding: 0 14px 24px;
+    overflow-y: auto;
+    flex: 1;
+  }
+}
+
+.q-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px;
+  border-radius: $radius-sm;
+
+  &:nth-child(odd) {
+    background: rgba($bg, .6);
+  }
+
+  &__no {
+    width: 30px;
+    font-weight: 700;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    color: $ink-soft;
+  }
+
+  &__opts {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+  }
+
+  &__flag {
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    color: color.adjust($line, $lightness: -20%);
+    @include focus-ring;
+
+    &:hover {
+      background: $warn-soft;
+    }
+  }
+
+  &.is-marked {
+    background: $warn-soft;
+
+    .q-row__flag {
+      color: $warn;
+    }
+  }
+
+  &.is-section-start {
+    margin-top: 10px;
+  }
+}
+
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: $brand-dark;
+  padding: 14px 6px 4px;
+}
+
+// ---------- Mobile: OMR becomes a bottom sheet ----------
+@include below($bp-md) {
+  .exam-bar {
+    gap: 8px;
+    padding: 0 10px;
+
+    .btn {
+      padding: 0 12px;
+    }
+  }
+
+  .exam-body {
+    position: relative;
+  }
+
+  .viewer__pages {
+    padding: 12px 8px 90px;
+  }
+
+  .omr {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: 72%;
+    border-left: 0;
+    border-top: 1px solid $line;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -8px 30px rgba(16, 24, 40, .15);
+    transform: translateY(calc(100% - 52px));
+    transition: transform .25s ease;
+
+    &.is-open {
+      transform: translateY(0);
+    }
+
+    &__handle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 52px;
+      flex: none;
+      padding: 0 18px;
+      border: 0;
+      background: none;
+      font: 700 15px/1 $font;
+      color: $ink;
+      cursor: pointer;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 6px;
+        left: 50%;
+        width: 40px;
+        height: 4px;
+        margin-left: -20px;
+        border-radius: 2px;
+        background: $line;
+      }
+    }
+
+    &__inner {
+      padding-top: 0;
+    }
+  }
+}
+
+@include below($bp-sm) {
+  .exam-bar__title span {
+    display: none;
+  }
+}

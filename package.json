@@ -1,0 +1,15 @@
+{
+  "name": "navodaya-mock-test",
+  "version": "1.0.0",
+  "description": "Navodaya (JNVST) mock test system built from scanned question papers",
+  "scripts": {
+    "build:css": "sass scss/main.scss css/main.css --no-source-map",
+    "watch:css": "sass --watch scss/main.scss css/main.css --no-source-map"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.80.6"
+  }
+}

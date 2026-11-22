@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Navodaya Mock Test</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+  <!-- ============ HOME ============ -->
+  <section id="view-home" class="view">
+    <header class="hero">
+      <div class="hero__inner">
+        <p class="hero__eyebrow">जवाहर नवोदय विद्यालय प्रवेश परीक्षा</p>
+        <h1 class="hero__title">Navodaya Mock Test</h1>
+        <p class="hero__sub">Pick a paper, read the questions, and fill the OMR sheet just like the real exam. 2 hours, with the timer on.</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="toolbar">
+        <div class="seg" role="tablist" id="paper-filter">
+          <button class="seg__btn is-active" data-filter="all">All papers</button>
+          <button class="seg__btn" data-filter="pyq">Previous years</button>
+          <button class="seg__btn" data-filter="practice">Practice</button>
+        </div>
+        <div class="toolbar__actions">
+          <button class="btn btn--ghost" id="btn-history">Results history</button>
+          <button class="btn btn--ghost" id="btn-export">Export keys</button>
+          <label class="btn btn--ghost">Import keys<input type="file" id="input-import" accept="application/json" hidden></label>
+        </div>
+      </div>
+
+      <div id="resume-banner" class="banner" hidden></div>
+
+      <div class="paper-grid" id="paper-grid"></div>
+    </main>
+  </section>
+
+  <!-- ============ EXAM ============ -->
+  <section id="view-exam" class="view" hidden>
+    <header class="exam-bar">
+      <button class="icon-btn" id="btn-exit" title="Back to papers" aria-label="Back to papers">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="exam-bar__title">
+        <strong id="exam-title"></strong>
+        <span id="exam-meta"></span>
+      </div>
+      <div class="timer" id="timer" aria-live="polite">
+        <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 9v4l2.5 2M9 2h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span id="timer-text">120:00</span>
+      </div>
+      <button class="btn btn--primary" id="btn-submit">Submit</button>
+    </header>
+
+    <div class="exam-body">
+      <div class="viewer" id="viewer">
+        <div class="viewer__tools">
+          <button class="icon-btn" data-zoom="-1" aria-label="Zoom out">−</button>
+          <span id="zoom-label">100%</span>
+          <button class="icon-btn" data-zoom="1" aria-label="Zoom in">+</button>
+          <span class="viewer__sep"></span>
+          <span id="page-indicator">Page 1</span>
+        </div>
+        <div class="viewer__pages" id="pages"></div>
+      </div>
+
+      <aside class="omr" id="omr">
+        <button class="omr__handle" id="omr-toggle">
+          <span>Answer sheet</span><span id="omr-count-mini"></span>
+        </button>
+        <div class="omr__inner">
+          <div class="omr__stats">
+            <div><b id="stat-answered">0</b><small>Answered</small></div>
+            <div><b id="stat-marked">0</b><small>For review</small></div>
+            <div><b id="stat-left">0</b><small>Not answered</small></div>
+          </div>
+          <div class="seg seg--small" id="section-tabs"></div>
+          <p class="omr__hint">Tap an option to fill it, tap again to clear. ⚑ marks a question to come back to.</p>
+          <ol class="omr__list" id="omr-list"></ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ RESULT ============ -->
+  <section id="view-result" class="view" hidden>
+    <main class="container container--narrow">
+      <button class="btn btn--ghost btn--back" data-go="home">← All papers</button>
+      <div id="result-content"></div>
+    </main>
+  </section>
+
+  <!-- ============ ANSWER KEY ============ -->
+  <section id="view-key" class="view" hidden>
+    <main class="container container--narrow">
+      <button class="btn btn--ghost btn--back" data-go="home">← All papers</button>
+      <div class="card">
+        <h2 id="key-title">Answer key</h2>
+        <p class="muted">Enter the correct option for each question (a teacher or parent can do this once). After that, every attempt of this paper is graded automatically, including past attempts. Keys are saved in this browser; use <em>Export keys</em> on the home screen to back them up or share them.</p>
+
+        <label class="field">
+          <span>Quick entry: type or paste all answers in order (e.g. <code>3142…</code> or <code>CABD…</code>). Use <code>0</code> or <code>-</code> for unknown.</span>
+          <textarea id="key-quick" rows="3" spellcheck="false"></textarea>
+        </label>
+        <div class="key-actions">
+          <button class="btn btn--ghost" id="key-apply-quick">Fill from text</button>
+          <span class="muted" id="key-progress"></span>
+        </div>
+
+        <div class="key-grid" id="key-grid"></div>
+
+        <div class="key-actions key-actions--end">
+          <button class="btn btn--danger-ghost" id="key-clear">Clear key</button>
+          <button class="btn btn--primary" id="key-save">Save key</button>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <!-- ============ HISTORY ============ -->
+  <section id="view-history" class="view" hidden>
+    <main class="container container--narrow">
+      <button class="btn btn--ghost btn--back" data-go="home">← All papers</button>
+      <h2>Results history</h2>
+      <div id="history-list"></div>
+    </main>
+  </section>
+
+  <!-- Dialog -->
+  <dialog id="dialog" class="dialog">
+    <form method="dialog">
+      <h3 id="dialog-title"></h3>
+      <p id="dialog-body"></p>
+      <div class="dialog__actions">
+        <button value="cancel" class="btn btn--ghost" id="dialog-cancel">Cancel</button>
+        <button value="ok" class="btn btn--primary" id="dialog-ok">OK</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="js/papers.js"></script>
+  <script src="js/answer-keys.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

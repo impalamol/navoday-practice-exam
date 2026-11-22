@@ -1,0 +1,59 @@
+@use "variables" as *;
+@use "mixins" as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: $font;
+  font-size: 15px;
+  line-height: 1.5;
+  color: $ink;
+  background: $bg;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0 0 .5em;
+}
+
+h2 {
+  font-size: 1.4rem;
+}
+
+code {
+  background: $brand-soft;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: .9em;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.muted {
+  color: $muted;
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+
+  &--narrow {
+    max-width: 860px;
+  }
+}
